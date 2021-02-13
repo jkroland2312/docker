@@ -1,11 +1,17 @@
-const express = require('express')
-const app = express()
-const port = 80
+const express = require('express');
+const multer = require('multer');
+const upload = multer({
+  dest: 'uploads/'
+}); 
+
+const app = express();
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+  res.sendFile(__dirname + '/index.html');
+});
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
+app.post('/', upload.single('file-to-upload'), (req, res) => {
+  res.redirect('/');
+});
+
+app.listen(3000);
